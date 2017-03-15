@@ -1,29 +1,25 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using garbage_calendar.Views;
+using Prism.Unity;
+using Xamarin.Forms;
 
 namespace garbage_calendar
 {
-	public partial class App : Application
+	public partial class App : PrismApplication
 	{
-		public App()
+		public App(IPlatformInitializer initializer) : base(initializer)
 		{
-			InitializeComponent();
-
-			MainPage = new garbage_calendarPage();
 		}
 
-		protected override void OnStart()
-		{
-			// Handle when your app starts
-		}
+	    protected override void OnInitialized()
+	    {
+	        InitializeComponent();
+	        NavigationService.NavigateAsync("GarbageView");
+	    }
 
-		protected override void OnSleep()
-		{
-			// Handle when your app sleeps
-		}
-
-		protected override void OnResume()
-		{
-			// Handle when your app resumes
-		}
+	    protected override void RegisterTypes()
+	    {
+	        Container.RegisterTypeForNavigation<GarbageView>();
+	    }
 	}
 }
