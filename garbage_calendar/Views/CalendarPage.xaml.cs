@@ -2,7 +2,7 @@
 
 namespace garbage_calendar.Views
 {
-    public partial class GarbageView : ContentPage
+    public partial class CalendarPage : ContentPage
     {
 
     }
