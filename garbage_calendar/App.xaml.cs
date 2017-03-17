@@ -14,11 +14,12 @@ namespace garbage_calendar
 	    protected override void OnInitialized()
 	    {
 	        InitializeComponent();
-	        NavigationService.NavigateAsync("CalendarPage");
+	        NavigationService.NavigateAsync("NavigationPage/CalendarPage");
 	    }
 
 	    protected override void RegisterTypes()
 	    {
+	        Container.RegisterTypeForNavigation<NavigationPage>();
 	        Container.RegisterTypeForNavigation<CalendarPage>();
 	    }
 	}
