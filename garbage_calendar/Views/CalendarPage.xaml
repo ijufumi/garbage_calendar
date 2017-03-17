@@ -6,4 +6,13 @@
     prism:ViewModelLocator.AutowireViewModel="True"
     x:Class="garbage_calendar.Views.CalendarPage"
     Title="ゴミ収集日カレンダー">
+
+    <ContentPage.Content>
+      <StackLayout>
+        <Label x:Name="thisMonth" />
+		<Image x:Name="toPrevMonth" Source="" ></Image>	
+		<Image x:Name="toNextMonth" Source="" ></Image>
+		<Grid x:Name="calendarGrid" />	
+      </StackLayout>
+    </ContentPage.Content>
 </ContentPage>
