@@ -7,7 +7,7 @@ namespace garbage_calendar
 {
 	public partial class App : PrismApplication
 	{
-		public App(IPlatformInitializer initializer) : base(initializer)
+		public App(IPlatformInitializer initializer = null) : base(initializer)
 		{
 		}
 
