@@ -3,7 +3,6 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-	xmlns:local="clr-namespace:garbage_calendar"
     prism:ViewModelLocator.AutowireViewModel="True"
     x:Class="garbage_calendar.Views.CalendarPage"
     Title="ゴミ収集日カレンダー">
