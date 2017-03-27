@@ -5,9 +5,9 @@ using Prism.Mvvm;
 
 namespace garbage_calendar.ViewModels
 {
-    public class GarbageViewModel : BindableBase
+    public class CalendarPageViewModel : BindableBase
     {
-        public GarbageViewModel()
+        public CalendarPageViewModel()
         {
             NextMonthClicked = new DelegateCommand<string>(
                 async (T) => await ShowNextMonthAsync(T),
