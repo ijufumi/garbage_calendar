@@ -9,6 +9,8 @@ namespace garbage_calendar.Views
         public CalendarPage()
         {
             InitializeComponent();
+
+
         }
     }
 }
