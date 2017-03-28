@@ -12,6 +12,7 @@ namespace garbage_calendar.Views
             InitializeComponent();
 
             var rowNum = CalendarUtils.CalcRowSize(2017, 3);
+
             var rowDefinitions = new RowDefinition[rowNum];
             var rowCollections = new RowDefinitionCollection();
             for (var i = 0; i < rowNum; i++)
@@ -31,6 +32,13 @@ namespace garbage_calendar.Views
             calendarGrid.RowDefinitions = rowCollections;
             calendarGrid.ColumnDefinitions = columnCollections;
 
+            for (var i = 0; i < rowNum; i++)
+            {
+                for (var j = 0; j < 7; j++)
+                {
+
+                }
+            }
             var viewModel = (CalendarPageViewModel) BindingContext;
         }
     }

@@ -18,6 +18,8 @@ namespace garbage_calendar.Logic
             Year = year;
             Month = month;
             Day = day;
+
+            IsVisible = false;
         }
 
         public int Year
