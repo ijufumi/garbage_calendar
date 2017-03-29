@@ -10,6 +10,18 @@ namespace garbage_calendar.Logic
 
         public Cell(int year, int month, int day)
         {
+            var label = new Label
+            {
+                FontSize = 20,
+                HorizontalTextAlignment = TextAlignment.Center,
+                VerticalTextAlignment = TextAlignment.Center,
+            };
+
+            SetLayoutFlags(label, AbsoluteLayoutFlags.PositionProportional);
+            SetLayoutBounds(label, new Rectangle(0, 0, 40, 40));
+
+            Children.Add(label);
+
             UpdateDate(year, month, day);
         }
 
@@ -48,6 +60,8 @@ namespace garbage_calendar.Logic
         }
         private static void OnDateValuePropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
         {
+            var cell = (Cell) bindable;
+            cell.Children[0].BackgroundColor = Color.White;
         }
     }
 }
