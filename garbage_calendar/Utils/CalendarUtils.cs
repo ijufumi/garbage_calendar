@@ -56,16 +56,13 @@ namespace garbage_calendar.Utils
                 // 当月
                 if (lastDay + prevMonthDays >= idx)
                 {
-
+                    return new DateTime(year, month, idx - prevMonthDays);
                 }
                 // 次の月
-                else
-                {
-
-                }
+                var dateTime = new DateTime(year, month, 1);
+                dateTime = dateTime.AddMonths(1);
+                return new DateTime(dateTime.Year, dateTime.Month, idx - lastDay - prevMonthDays);
             }
-
-            return DateTime.Now;
         }
     }
 }
