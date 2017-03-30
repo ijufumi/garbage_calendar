@@ -32,6 +32,8 @@ namespace garbage_calendar.Views
             calendarGrid.RowDefinitions = rowCollections;
             calendarGrid.ColumnDefinitions = columnCollections;
 
+            var cells = new Cell[rowNum * 7];
+
             for (var i = 0; i < rowNum; i++)
             {
                 for (var j = 0; j < 7; j++)
