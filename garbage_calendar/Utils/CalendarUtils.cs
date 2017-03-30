@@ -7,7 +7,7 @@ namespace garbage_calendar.Utils
         public static int CalcRowSize(int year, int month)
         {
             var diff = CalcPrevMonthDays(year, month);
-            var endOfDay = DateTime.DaysInMonth(year, month);
+            var endOfDay = GetCountOfDays(year, month);
             var cellCountWithPrefix = diff + endOfDay;
             if (cellCountWithPrefix % 7 == 0)
             {
@@ -33,7 +33,39 @@ namespace garbage_calendar.Utils
             var startWeek = date.DayOfWeek;
 
             return DayOfWeek.Saturday - startWeek;
+        }
 
+        public static int GetCountOfDays(int year, int month)
+        {
+            return DateTime.DaysInMonth(year, month);
+        }
+
+        public static DateTime CalcDate(int year, int month, int prevMonthDays, int idx)
+        {
+            // 前の月
+            if (prevMonthDays > idx)
+            {
+                var dateTime = new DateTime(year, month, 1);
+                dateTime = dateTime.AddMonths(-1);
+                var lastDay = GetCountOfDays(dateTime.Year, dateTime.Month);
+                return new DateTime(dateTime.Year, dateTime.Month, lastDay - prevMonthDays + idx);
+            }
+            else
+            {
+                var lastDay = GetCountOfDays(year, month);
+                // 当月
+                if (lastDay + prevMonthDays >= idx)
+                {
+
+                }
+                // 次の月
+                else
+                {
+
+                }
+            }
+
+            return DateTime.Now;
         }
     }
 }
