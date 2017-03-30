@@ -32,16 +32,30 @@ namespace garbage_calendar.Views
             calendarGrid.RowDefinitions = rowCollections;
             calendarGrid.ColumnDefinitions = columnCollections;
 
-            var cells = new Cell[rowNum * 7];
+            var cells = new Logic.Cell[rowNum * 7];
+
+            var prevMonthDay = CalendarUtils.CalcPrevMonthDays(2017, 3);
 
             for (var i = 0; i < rowNum; i++)
             {
-                for (var j = 0; j < 7; j++)
+                for (var j = 1; j <= 7; j++)
                 {
+                    var idx = (i * 7) + j;
+                    var dateTime = CalendarUtils.CalcDate(2017, 3, prevMonthDay, idx);
+                    cells[idx - 1] = new Logic.Cell(dateTime.Year, dateTime.Month, dateTime.Day);
 
+                    if (dateTime.Year == 2017 && dateTime.Month == 3)
+                    {
+                        cells[idx - 1].BackgroundColor = Color.White;
+                    }
+                    else
+                    {
+                        cells[idx - 1].BackgroundColor = Color.Gray;
+                    }
                 }
             }
             var viewModel = (CalendarPageViewModel) BindingContext;
+
         }
     }
 }

@@ -4,9 +4,10 @@ namespace garbage_calendar.Logic
 {
     public class Cell : AbsoluteLayout
     {
-        public static readonly BindableProperty YearProperty = BindableProperty.Create("Year", typeof (int), typeof (Xamarin.Forms.Cell), 2000, BindingMode.TwoWay, null, OnYearValuePropertyChanged);
-        public static readonly BindableProperty MonthProperty = BindableProperty.Create("Month", typeof (int), typeof (Xamarin.Forms.Cell), 1, BindingMode.TwoWay, null, OnMonthValuePropertyChanged);
-        public static readonly BindableProperty DayProperty = BindableProperty.Create("Day", typeof (int), typeof (Xamarin.Forms.Cell), 1, BindingMode.TwoWay, null, OnDayValuePropertyChanged);
+        public static readonly BindableProperty YearProperty = BindableProperty.Create("Year", typeof (int), typeof (Xamarin.Forms.Cell), 2000, BindingMode.OneWay, null, OnYearValuePropertyChanged);
+        public static readonly BindableProperty MonthProperty = BindableProperty.Create("Month", typeof (int), typeof (Xamarin.Forms.Cell), 1, BindingMode.OneWay, null, OnMonthValuePropertyChanged);
+        public static readonly BindableProperty DayProperty = BindableProperty.Create("Day", typeof (int), typeof (Xamarin.Forms.Cell), 1, BindingMode.OneWay, null, OnDayValuePropertyChanged);
+        public static readonly BindableProperty IndexProperty = BindableProperty.Create("Index", typeof (int), typeof (Xamarin.Forms.Cell), 0, BindingMode.OneWay, null, OnIndexValuePropertyChanged);
 
         public Cell(int year, int month, int day)
         {
@@ -58,6 +59,16 @@ namespace garbage_calendar.Logic
                 SetValue(DayProperty, value);
             }
         }
+
+        public int Index
+        {
+            get { return (int) GetValue(IndexProperty); }
+            set
+            {
+                SetValue(IndexProperty, value);
+            }
+        }
+
         private static void OnYearValuePropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
         {
         }
@@ -68,6 +79,10 @@ namespace garbage_calendar.Logic
         {
             var cell = (Cell) bindable;
             (cell.Children[0] as Label).Text = ((int) newvalue).ToString();
+        }
+
+        private static void OnIndexValuePropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+        {
         }
     }
 }
