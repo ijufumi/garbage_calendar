@@ -4,9 +4,9 @@ namespace garbage_calendar.Logic
 {
     public class Cell : AbsoluteLayout
     {
-        public static readonly BindableProperty YearProperty = BindableProperty.Create("Year", typeof (int), typeof (Xamarin.Forms.Cell), 2000, BindingMode.TwoWay, null, OnDateValuePropertyChanged);
-        public static readonly BindableProperty MonthProperty = BindableProperty.Create("Month", typeof (int), typeof (Xamarin.Forms.Cell), 1, BindingMode.TwoWay, null, OnDateValuePropertyChanged);
-        public static readonly BindableProperty DayProperty = BindableProperty.Create("Day", typeof (int), typeof (Xamarin.Forms.Cell), 1, BindingMode.TwoWay, null, OnDateValuePropertyChanged);
+        public static readonly BindableProperty YearProperty = BindableProperty.Create("Year", typeof (int), typeof (Xamarin.Forms.Cell), 2000, BindingMode.TwoWay, null, OnYearValuePropertyChanged);
+        public static readonly BindableProperty MonthProperty = BindableProperty.Create("Month", typeof (int), typeof (Xamarin.Forms.Cell), 1, BindingMode.TwoWay, null, OnMonthValuePropertyChanged);
+        public static readonly BindableProperty DayProperty = BindableProperty.Create("Day", typeof (int), typeof (Xamarin.Forms.Cell), 1, BindingMode.TwoWay, null, OnDayValuePropertyChanged);
 
         public Cell(int year, int month, int day)
         {
@@ -58,10 +58,16 @@ namespace garbage_calendar.Logic
                 SetValue(DayProperty, value);
             }
         }
-        private static void OnDateValuePropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+        private static void OnYearValuePropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+        {
+        }
+        private static void OnMonthValuePropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+        {
+        }
+        private static void OnDayValuePropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
         {
             var cell = (Cell) bindable;
-            cell.Children[0].BackgroundColor = Color.White;
+            (cell.Children[0] as Label).Text = ((int) newvalue).ToString();
         }
     }
 }
