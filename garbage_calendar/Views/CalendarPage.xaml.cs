@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using garbage_calendar.Utils;
 using Xamarin.Forms;
 using garbage_calendar.ViewModels;
@@ -9,6 +10,7 @@ namespace garbage_calendar.Views
     {
         public CalendarPage()
         {
+            Debug.WriteLine("Start CalendarPage()");
             InitializeComponent();
 
             var rowNum = CalendarUtils.CalcRowSize(2017, 3);
@@ -54,8 +56,9 @@ namespace garbage_calendar.Views
                     }
                 }
             }
-            var viewModel = (CalendarPageViewModel) BindingContext;
 
+            var viewModel = (CalendarPageViewModel) BindingContext;
+            Debug.WriteLine("End CalendarPage()");
         }
     }
 }
