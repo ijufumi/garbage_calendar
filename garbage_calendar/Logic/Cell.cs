@@ -18,8 +18,10 @@ namespace garbage_calendar.Logic
                 VerticalTextAlignment = TextAlignment.Center,
             };
 
-            var image = new Image();
-            image.Source = "";
+            var image = new Image
+            {
+                Source = "default_image.png"
+            };
 
             SetLayoutFlags(label, AbsoluteLayoutFlags.PositionProportional);
             SetLayoutBounds(label, new Rectangle(0, 0, 40, 40));
