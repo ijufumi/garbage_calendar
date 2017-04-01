@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace garbage_calendar.Utils
 {
@@ -43,11 +44,14 @@ namespace garbage_calendar.Utils
         public static DateTime CalcDate(int year, int month, int prevMonthDays, int idx)
         {
             // 前の月
-            if (prevMonthDays > idx)
+            if (prevMonthDays >= idx)
             {
                 var dateTime = new DateTime(year, month, 1);
                 dateTime = dateTime.AddMonths(-1);
                 var lastDay = GetCountOfDays(dateTime.Year, dateTime.Month);
+
+                Debug.WriteLine("{0}/{1}/{2}", dateTime.Year, dateTime.Month, lastDay - prevMonthDays + idx);
+
                 return new DateTime(dateTime.Year, dateTime.Month, lastDay - prevMonthDays + idx);
             }
             else
@@ -61,6 +65,9 @@ namespace garbage_calendar.Utils
                 // 次の月
                 var dateTime = new DateTime(year, month, 1);
                 dateTime = dateTime.AddMonths(1);
+
+                Debug.WriteLine("{0}/{1}/{2}", dateTime.Year, dateTime.Month, idx - lastDay - prevMonthDays);
+
                 return new DateTime(dateTime.Year, dateTime.Month, idx - lastDay - prevMonthDays);
             }
         }
