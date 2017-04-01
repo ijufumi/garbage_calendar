@@ -18,10 +18,14 @@ namespace garbage_calendar.Logic
                 VerticalTextAlignment = TextAlignment.Center,
             };
 
+            var image = new Image();
+            image.Source = "";
+
             SetLayoutFlags(label, AbsoluteLayoutFlags.PositionProportional);
             SetLayoutBounds(label, new Rectangle(0, 0, 40, 40));
 
             Children.Add(label);
+            Children.Add(image);
 
             UpdateDate(year, month, day);
         }
