@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -9,6 +9,7 @@ namespace garbage_calendar.ViewModels
     {
         public CalendarPageViewModel()
         {
+            Debug.WriteLine("Start CalendarPageViewModel()");
             NextMonthClicked = new DelegateCommand<string>(
                 async (T) => await ShowNextMonthAsync(T),
                 T => CanShowNext
@@ -23,6 +24,8 @@ namespace garbage_calendar.ViewModels
                 async (T) => await CellClickAsync(T),
                 T => CanCellClick
             ).ObservesProperty(() => CanCellClick);
+
+            Debug.WriteLine("End CalendarPageViewModel()");
         }
 
         public DelegateCommand<string> NextMonthClicked { get; }
