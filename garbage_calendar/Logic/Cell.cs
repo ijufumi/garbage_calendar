@@ -1,12 +1,13 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 
 namespace garbage_calendar.Logic
 {
     public class Cell : AbsoluteLayout
     {
-        public static readonly BindableProperty YearProperty = BindableProperty.Create("Year", typeof (int), typeof (Xamarin.Forms.Cell), 2000, BindingMode.OneWay, null, OnYearValuePropertyChanged);
-        public static readonly BindableProperty MonthProperty = BindableProperty.Create("Month", typeof (int), typeof (Xamarin.Forms.Cell), 1, BindingMode.OneWay, null, OnMonthValuePropertyChanged);
-        public static readonly BindableProperty DayProperty = BindableProperty.Create("Day", typeof (int), typeof (Xamarin.Forms.Cell), 1, BindingMode.OneWay, null, OnDayValuePropertyChanged);
+        public static readonly BindableProperty YearProperty = BindableProperty.Create("Year", typeof (int), typeof (Xamarin.Forms.Cell), 1900, BindingMode.OneWay, null, OnYearValuePropertyChanged);
+        public static readonly BindableProperty MonthProperty = BindableProperty.Create("Month", typeof (int), typeof (Xamarin.Forms.Cell), 0, BindingMode.OneWay, null, OnMonthValuePropertyChanged);
+        public static readonly BindableProperty DayProperty = BindableProperty.Create("Day", typeof (int), typeof (Xamarin.Forms.Cell), 0, BindingMode.OneWay, null, OnDayValuePropertyChanged);
         public static readonly BindableProperty IndexProperty = BindableProperty.Create("Index", typeof (int), typeof (Xamarin.Forms.Cell), 0, BindingMode.OneWay, null, OnIndexValuePropertyChanged);
 
         public Cell(int year, int month, int day)
@@ -24,8 +25,11 @@ namespace garbage_calendar.Logic
             };
 
             SetLayoutFlags(label, AbsoluteLayoutFlags.PositionProportional);
-            SetLayoutBounds(label, new Rectangle(0, 0, 40, 40));
+            SetLayoutBounds(label, new Rectangle(0, 1, AutoSize, AutoSize));
 
+            SetLayoutFlags(image, AbsoluteLayoutFlags.PositionProportional);
+            SetLayoutBounds(image, new Rectangle(1, 0, AutoSize, AutoSize));
+           
             Children.Add(label);
             Children.Add(image);
 
@@ -38,7 +42,7 @@ namespace garbage_calendar.Logic
             Month = month;
             Day = day;
 
-            IsVisible = false;
+            IsVisible = true;
         }
 
         public int Year
@@ -85,8 +89,24 @@ namespace garbage_calendar.Logic
         {
             var cell = (Cell) bindable;
             (cell.Children[0] as Label).Text = ((int) newvalue).ToString();
+
+            UpdateDayColor(cell);
         }
 
+        private static void UpdateDayColor(Cell cell)
+        {
+            var dateTime = new DateTime(cell.Year, cell.Month, cell.Day);
+            var dayOfWeek = dateTime.DayOfWeek;
+            switch (dayOfWeek)
+            {
+                case DayOfWeek.Saturday:
+                    (cell.Children[0] as Label).TextColor = Color.Blue;
+                    break;
+                case DayOfWeek.Sunday:
+                    (cell.Children[0] as Label).TextColor = Color.Red;
+                    break;
+            }
+        }
         private static void OnIndexValuePropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
         {
         }
