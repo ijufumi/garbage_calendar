@@ -10,8 +10,9 @@ namespace garbage_calendar.Views
     {
         public CalendarPage()
         {
-            Debug.WriteLine("Start CalendarPage()");
             InitializeComponent();
+
+            Debug.WriteLine("Start CalendarPage()");
 
             var rowNum = CalendarUtils.CalcRowSize(2017, 3);
 
@@ -38,6 +39,8 @@ namespace garbage_calendar.Views
 
             var prevMonthDay = CalendarUtils.CalcPrevMonthDays(2017, 3);
 
+            var viewModel = (CalendarPageViewModel) BindingContext;
+
             for (var i = 0; i < rowNum; i++)
             {
                 for (var j = 1; j <= 7; j++)
@@ -54,10 +57,11 @@ namespace garbage_calendar.Views
                     {
                         cells[idx - 1].BackgroundColor = Color.Gray;
                     }
+                    Debug.WriteLine("{0}-{1}-{2}", dateTime.Year, dateTime.Month, dateTime.Day);
+                    calendarGrid.Children.Add(cells[idx - 1], j - 1, i);
                 }
             }
 
-            var viewModel = (CalendarPageViewModel) BindingContext;
             Debug.WriteLine("End CalendarPage()");
         }
     }
