@@ -47,7 +47,10 @@ namespace garbage_calendar.Views
                 {
                     var idx = (i * 7) + j;
                     var dateTime = CalendarUtils.CalcDate(2017, 3, prevMonthDay, idx);
-                    cells[idx - 1] = new Logic.Cell(dateTime.Year, dateTime.Month, dateTime.Day);
+                    cells[idx - 1] = new Logic.Cell(dateTime.Year, dateTime.Month, dateTime.Day)
+                    {
+                        Index = idx - 1
+                    };
 
                     if (dateTime.Year == 2017 && dateTime.Month == 3)
                     {
@@ -58,6 +61,14 @@ namespace garbage_calendar.Views
                         cells[idx - 1].BackgroundColor = Color.Gray;
                     }
                     Debug.WriteLine("{0}-{1}-{2}", dateTime.Year, dateTime.Month, dateTime.Day);
+
+                    cells[idx - 1].GestureRecognizers.Add(
+                            new TapGestureRecognizer
+                            {
+                                Command = viewModel.CellClicked,
+                                CommandParameter = idx - 1
+                            }
+                        );
                     calendarGrid.Children.Add(cells[idx - 1], j - 1, i);
                 }
             }
