@@ -19,14 +19,14 @@ namespace garbage_calendar.ViewModels
             _navigationService = navigationService;
 
             Debug.WriteLine("Start CalendarPageViewModel()");
-            NextMonthClicked = new DelegateCommand<string>(
-                async (T) => await ShowNextMonthAsync(T),
-                T => CanShowNext
+            NextMonthClicked = new DelegateCommand(
+                async () => await ShowNextMonthAsync(),
+                () => CanShowNext
             ).ObservesProperty(() => CanShowNext);
 
-            PrevMonthClicked = new DelegateCommand<string>(
-                async (T) => await ShowPrevMonthAsync(T),
-                T => CanShowPrev
+            PrevMonthClicked = new DelegateCommand(
+                async () => await ShowPrevMonthAsync(),
+                () => CanShowPrev
             ).ObservesProperty(() => CanShowPrev);
 
             CellClicked = new DelegateCommand<int?>(
@@ -38,11 +38,11 @@ namespace garbage_calendar.ViewModels
             Debug.WriteLine("End CalendarPageViewModel()");
         }
 
-        public DelegateCommand<string> NextMonthClicked { get; }
-        public DelegateCommand<string> PrevMonthClicked { get; }
+        public DelegateCommand NextMonthClicked { get; }
+        public DelegateCommand PrevMonthClicked { get; }
         public DelegateCommand<int?> CellClicked { get; }
 
-        async Task ShowNextMonthAsync(string month)
+        async Task ShowNextMonthAsync()
         {
             var dateTime = new DateTime(_year, _month, 1);
             dateTime = dateTime.AddMonths(1);
@@ -53,7 +53,7 @@ namespace garbage_calendar.ViewModels
 
             _navigationService.NavigateAsync("CalendarPage", parameters);
         }
-        async Task ShowPrevMonthAsync(string month)
+        async Task ShowPrevMonthAsync()
         {
             var dateTime = new DateTime(_year, _month, 1);
             dateTime = dateTime.AddMonths(-1);
