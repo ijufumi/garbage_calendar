@@ -18,12 +18,19 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Image x:Name="toPrevMonth" Source="prev_arrow.png" ></Image>
-            <Label x:Name="thisMonth" Text="2017年3月"/>
-            <Image x:Name="toNextMonth" Source="next_arrow.png" ></Image>
+            <Image x:Name="toPrevMonth"
+                   Source="prev_arrow.png" />
+            <Label x:Name="thisMonth"
+                   Text="2017年3月"/>
+            <Image x:Name="toNextMonth"
+                   Source="next_arrow.png" />
         </Grid>
 
-		<Grid RowSpacing="1" HorizontalOptions="Center" ColumnSpacing="1" x:Name="calendarGrid" />
+		<Grid BackgroundColor="Orange"
+		      RowSpacing="1"
+		      HorizontalOptions="Center"
+		      ColumnSpacing="1"
+		      x:Name="calendarGrid" />
       </StackLayout>
     </ContentPage.Content>
 </ContentPage>
