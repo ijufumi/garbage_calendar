@@ -19,11 +19,13 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Image x:Name="toPrevMonth"
-                   Source="prev_arrow.png" />
+                   Source="prev_arrow.png"
+                   Height="10"/>
             <Label x:Name="thisMonth"
                    Text="2017年3月"/>
             <Image x:Name="toNextMonth"
-                   Source="next_arrow.png" />
+                   Source="next_arrow.png"
+                   Height="10"/>
         </Grid>
 
 		<Grid BackgroundColor="Orange"
