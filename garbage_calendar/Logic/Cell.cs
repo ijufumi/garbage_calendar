@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace garbage_calendar.Logic
 {
-    public class Cell : AbsoluteLayout
+    public class Cell : StackLayout
     {
         public static readonly BindableProperty YearProperty = BindableProperty.Create("Year", typeof (int), typeof (Xamarin.Forms.Cell), 1900, BindingMode.OneWay, null, OnYearValuePropertyChanged);
         public static readonly BindableProperty MonthProperty = BindableProperty.Create("Month", typeof (int), typeof (Xamarin.Forms.Cell), 0, BindingMode.OneWay, null, OnMonthValuePropertyChanged);
@@ -12,24 +12,24 @@ namespace garbage_calendar.Logic
 
         public Cell(int year, int month, int day)
         {
+            Spacing = 0;
+            VerticalOptions = LayoutOptions.Center;
+
             var label = new Label
             {
-                FontSize = 20,
+                FontSize = 15,
+                HorizontalOptions = LayoutOptions.StartAndExpand,
                 HorizontalTextAlignment = TextAlignment.Center,
                 VerticalTextAlignment = TextAlignment.Center,
             };
 
+            // TODO 画像を透過にする
             var image = new Image
             {
-                Source = "default_image.png"
+                Source = "default_image.png",
+                HorizontalOptions = LayoutOptions.CenterAndExpand
             };
 
-            SetLayoutFlags(label, AbsoluteLayoutFlags.PositionProportional);
-            SetLayoutBounds(label, new Rectangle(0, 1, AutoSize, AutoSize));
-
-            SetLayoutFlags(image, AbsoluteLayoutFlags.PositionProportional);
-            SetLayoutBounds(image, new Rectangle(1, 0, AutoSize, AutoSize));
-           
             Children.Add(label);
             Children.Add(image);
 
