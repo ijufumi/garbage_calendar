@@ -14,18 +14,27 @@
                 <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
+
             <Image x:Name="toPrevMonth"
                    Source="prev_arrow.png"
-                   Height="10"/>
+                   VerticalOptions="CenterAndExpand"
+                   HeightRequest="30"
+                   Grid.Row="0"
+                   Grid.Column="0"/>
             <Label x:Name="thisMonth"
-                   Text="2017年3月"/>
+                   Text="2017年3月"
+                   Grid.Row="0"
+                   Grid.Column="1"/>
             <Image x:Name="toNextMonth"
                    Source="next_arrow.png"
-                   Height="10"/>
+                   VerticalOptions="CenterAndExpand"
+                   HeightRequest="30"
+                   Grid.Row="0"
+                   Grid.Column="2"/>
         </Grid>
 
 		<Grid BackgroundColor="Orange"
