@@ -7,26 +7,23 @@ using Prism.Navigation;
 
 namespace garbage_calendar.ViewModels
 {
-    public class CalendarPageViewModel : BindableBase, INavigatingAware
+    public class CalendarPageViewModel : BindableBase
     {
         private INavigationService _navigationService;
-
-        private int _year;
-        private int _month;
 
         public CalendarPageViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
 
             Debug.WriteLine("Start CalendarPageViewModel()");
-            NextMonthClicked = new DelegateCommand(
-                async () => await ShowNextMonthAsync(),
-                () => CanShowNext
+            NextMonthClicked = new DelegateCommand<string>(
+                async (T) => await ShowNextMonthAsync(T),
+                (T) => CanShowNext
             ).ObservesProperty(() => CanShowNext);
 
-            PrevMonthClicked = new DelegateCommand(
-                async () => await ShowPrevMonthAsync(),
-                () => CanShowPrev
+            PrevMonthClicked = new DelegateCommand<string>(
+                async (T) => await ShowPrevMonthAsync(T),
+                (T) => CanShowPrev
             ).ObservesProperty(() => CanShowPrev);
 
             CellClicked = new DelegateCommand<int?>(
@@ -34,18 +31,21 @@ namespace garbage_calendar.ViewModels
                 T => CanCellClick
             ).ObservesProperty(() => CanCellClick);
 
-
             Debug.WriteLine("End CalendarPageViewModel()");
         }
 
-        public DelegateCommand NextMonthClicked { get; }
-        public DelegateCommand PrevMonthClicked { get; }
+        public DelegateCommand<string> NextMonthClicked { get; }
+        public DelegateCommand<string> PrevMonthClicked { get; }
         public DelegateCommand<int?> CellClicked { get; }
 
-        async Task ShowNextMonthAsync()
+        async Task ShowNextMonthAsync(string yyyyMM)
         {
-            var dateTime = new DateTime(_year, _month, 1);
-            dateTime = dateTime.AddMonths(1);
+            var year = yyyyMM.Substring(0, 4);
+            var month = yyyyMM.Substring(4);
+
+            Debug.WriteLine("[Next] {0}/{1}", year, month);
+
+            var dateTime = new DateTime(Int32.Parse(year), Int32.Parse(month), 1);
             var parameters = new NavigationParameters();
 
             parameters.Add("year", dateTime.Year);
@@ -53,16 +53,20 @@ namespace garbage_calendar.ViewModels
 
             _navigationService.NavigateAsync("CalendarPage", parameters);
         }
-        async Task ShowPrevMonthAsync()
+        async Task ShowPrevMonthAsync(string yyyyMM)
         {
-            var dateTime = new DateTime(_year, _month, 1);
-            dateTime = dateTime.AddMonths(-1);
+            var year = yyyyMM.Substring(0, 4);
+            var month = yyyyMM.Substring(4);
+
+            Debug.WriteLine("[Prev] {0}/{1}", year, month);
+
+            var dateTime = new DateTime(Int32.Parse(year), Int32.Parse(month), 1);
             var parameters = new NavigationParameters();
 
             parameters.Add("year", dateTime.Year);
             parameters.Add("month", dateTime.Month);
 
-            _navigationService.NavigateAsync("CalendarPage");
+            _navigationService.NavigateAsync("CalendarPage", parameters);
         }
         async Task CellClickAsync(int? day)
         {
@@ -73,17 +77,6 @@ namespace garbage_calendar.ViewModels
         private bool CanShowPrev => true;
         private bool CanCellClick => true;
 
-        public void OnNavigatingTo(NavigationParameters parameters)
-        {
-            if (parameters.ContainsKey("year"))
-            {
-                _year = (int) parameters["year"];
-            }
-            if (parameters.ContainsKey("month"))
-            {
-                _month = (int) parameters["month"];
-            }
-        }
     }
 
 }
