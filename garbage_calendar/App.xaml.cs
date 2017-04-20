@@ -1,5 +1,6 @@
 ﻿using System;
 using garbage_calendar.Views;
+using Prism.Navigation;
 using Prism.Unity;
 using Xamarin.Forms;
 
@@ -14,7 +15,12 @@ namespace garbage_calendar
 	    protected override void OnInitialized()
 	    {
 	        InitializeComponent();
-	        NavigationService.NavigateAsync("NavigationPage/CalendarPage");
+	        var dateTime = DateTime.Now;
+	        var parameters = new NavigationParameters();
+
+	        parameters.Add("year", dateTime.Year);
+	        parameters.Add("month", dateTime.Month);
+	        NavigationService.NavigateAsync("NavigationPage/CalendarPage", parameters);
 	    }
 
 	    protected override void RegisterTypes()
