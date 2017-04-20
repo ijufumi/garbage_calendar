@@ -28,7 +28,9 @@
             <Label x:Name="thisMonth"
                    Text="2017年3月"
                    Grid.Row="0"
-                   Grid.Column="1"/>
+                   Grid.Column="1"
+                   VerticalTextAlignment="Center"
+                   HorizontalTextAlignment="Center"/>
             <Image x:Name="toNextMonth"
                    Source="next_arrow.png"
                    VerticalOptions="CenterAndExpand"
