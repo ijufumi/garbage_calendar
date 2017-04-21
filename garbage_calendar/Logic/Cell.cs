@@ -13,21 +13,19 @@ namespace garbage_calendar.Logic
         public Cell(int year, int month, int day)
         {
             Spacing = 0;
-            VerticalOptions = LayoutOptions.Center;
+            VerticalOptions = LayoutOptions.FillAndExpand;
 
             var label = new Label
             {
-                FontSize = 15,
-                HorizontalOptions = LayoutOptions.StartAndExpand,
-                HorizontalTextAlignment = TextAlignment.Center,
-                VerticalTextAlignment = TextAlignment.Center,
+                FontSize = 12,
+                HorizontalOptions = LayoutOptions.End
             };
 
             // TODO 画像を透過にする
             var image = new Image
             {
                 Source = "default_image.png",
-                HorizontalOptions = LayoutOptions.CenterAndExpand
+                HorizontalOptions = LayoutOptions.FillAndExpand
             };
 
             Children.Add(label);
