@@ -110,5 +110,11 @@ namespace garbage_calendar.Views
 
             UpdateView(year, month);
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            NavigationPage.SetHasBackButton(this, false);
+        }
     }
 }
