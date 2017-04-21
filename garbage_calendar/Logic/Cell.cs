@@ -14,6 +14,7 @@ namespace garbage_calendar.Logic
         {
             Spacing = 0;
             VerticalOptions = LayoutOptions.FillAndExpand;
+            BackgroundColor = Color.White;
 
             var label = new Label
             {

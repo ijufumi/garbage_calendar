@@ -25,20 +25,17 @@ namespace garbage_calendar.Views
 
             var rowNum = CalendarUtils.CalcRowSize(year, month);
 
-            var rowDefinitions = new RowDefinition[rowNum];
             var rowCollections = new RowDefinitionCollection();
+            rowCollections.Add(new RowDefinition {Height = 15});
             for (var i = 0; i < rowNum; i++)
             {
-                rowDefinitions[i] = new RowDefinition {Height = 40};
-                rowCollections.Add(rowDefinitions[i]);
+                rowCollections.Add(new RowDefinition {Height = 40});
             }
 
-            var columnDefinitions = new ColumnDefinition[7];
             var columnCollections = new ColumnDefinitionCollection();
             for (var i = 0; i < 7; i++)
             {
-                columnDefinitions[i] = new ColumnDefinition {Width = 40};
-                columnCollections.Add(columnDefinitions[i]);
+                columnCollections.Add(new ColumnDefinition {Width = 40});
             }
 
             calendarGrid.RowDefinitions = rowCollections;
@@ -48,6 +45,16 @@ namespace garbage_calendar.Views
 
             var prevMonthDay = CalendarUtils.CalcPrevMonthDays(year, month);
 
+            Debug.WriteLine("曜日ラベル作成");
+            calendarGrid.Children.Add(CreateHeaderLabel(DayOfWeek.Sunday), 0, 0);
+            calendarGrid.Children.Add(CreateHeaderLabel(DayOfWeek.Monday), 1, 0);
+            calendarGrid.Children.Add(CreateHeaderLabel(DayOfWeek.Tuesday), 2, 0);
+            calendarGrid.Children.Add(CreateHeaderLabel(DayOfWeek.Wednesday), 3, 0);
+            calendarGrid.Children.Add(CreateHeaderLabel(DayOfWeek.Thursday), 4, 0);
+            calendarGrid.Children.Add(CreateHeaderLabel(DayOfWeek.Friday), 5, 0);
+            calendarGrid.Children.Add(CreateHeaderLabel(DayOfWeek.Saturday), 6, 0);
+
+            Debug.WriteLine("カレンダー作成");
             for (var i = 0; i < rowNum; i++)
             {
                 for (var j = 1; j <= 7; j++)
@@ -76,7 +83,7 @@ namespace garbage_calendar.Views
                             CommandParameter = idx - 1
                         }
                     );
-                    calendarGrid.Children.Add(cells[idx - 1], j - 1, i);
+                    calendarGrid.Children.Add(cells[idx - 1], j - 1, i + 1);
                 }
             }
 
@@ -99,6 +106,31 @@ namespace garbage_calendar.Views
                     CommandParameter = string.Format("{0}{1}", pickerDateTime.Year, pickerDateTime.Month)
                 }
             );
+        }
+
+        private Label CreateHeaderLabel(DayOfWeek week)
+        {
+            var labelColor = Color.Black;
+            switch (week)
+            {
+                case DayOfWeek.Sunday:
+                    labelColor = Color.Red;
+                    break;
+                case DayOfWeek.Saturday:
+                    labelColor = Color.Blue;
+                    break;
+            }
+
+            Debug.WriteLine("CreateHeaderLabel()");
+            return new Label
+            {
+                TextColor = labelColor,
+                FontSize = 12,
+                FontAttributes = FontAttributes.Bold,
+                HorizontalTextAlignment = TextAlignment.Center,
+                BackgroundColor = Color.White,
+                Text = week.ToString().Substring(0, 3)
+            };
         }
 
         public void OnNavigatingTo(NavigationParameters parameters)
