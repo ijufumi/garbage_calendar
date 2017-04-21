@@ -51,7 +51,7 @@ namespace garbage_calendar.ViewModels
             parameters.Add("year", dateTime.Year);
             parameters.Add("month", dateTime.Month);
 
-            _navigationService.NavigateAsync("CalendarPage", parameters);
+            _navigationService.NavigateAsync("CalendarPage", parameters, animated: false);
         }
         async Task ShowPrevMonthAsync(string yyyyMM)
         {
@@ -66,7 +66,7 @@ namespace garbage_calendar.ViewModels
             parameters.Add("year", dateTime.Year);
             parameters.Add("month", dateTime.Month);
 
-            _navigationService.NavigateAsync("CalendarPage", parameters);
+            _navigationService.NavigateAsync("CalendarPage", parameters, animated: false);
         }
         async Task CellClickAsync(int? day)
         {
