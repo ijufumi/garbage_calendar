@@ -26,7 +26,8 @@ namespace garbage_calendar.Logic
             var image = new Image
             {
                 Source = "burnable.png",
-                HorizontalOptions = LayoutOptions.FillAndExpand
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                HeightRequest = 30
             };
 
             Children.Add(label);
