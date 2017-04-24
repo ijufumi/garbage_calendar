@@ -29,7 +29,7 @@ namespace garbage_calendar.Views
             rowCollections.Add(new RowDefinition {Height = 15});
             for (var i = 0; i < rowNum; i++)
             {
-                rowCollections.Add(new RowDefinition {Height = 40});
+                rowCollections.Add(new RowDefinition {Height = 50});
             }
 
             var columnCollections = new ColumnDefinitionCollection();
