@@ -16,10 +16,8 @@ namespace garbage_calendar
 	    {
 	        InitializeComponent();
 	        var dateTime = DateTime.Now;
-	        var parameters = new NavigationParameters();
+	        var parameters = new NavigationParameters {{"year", dateTime.Year}, {"month", dateTime.Month}};
 
-	        parameters.Add("year", dateTime.Year);
-	        parameters.Add("month", dateTime.Month);
 	        NavigationService.NavigateAsync("NavigationPage/CalendarPage", parameters);
 	    }
 
