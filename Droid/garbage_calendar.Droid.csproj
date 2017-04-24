@@ -151,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="Resources\drawable\burnable.png" />
     <Content Include="Resources\drawable\next_arrow.png" />
     <Content Include="Resources\drawable\prev_arrow.png" />
   </ItemGroup>

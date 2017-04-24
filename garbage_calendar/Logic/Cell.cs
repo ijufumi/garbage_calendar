@@ -25,7 +25,7 @@ namespace garbage_calendar.Logic
             // TODO 画像を透過にする
             var image = new Image
             {
-                Source = "default_image.png",
+                Source = "burnable.png",
                 HorizontalOptions = LayoutOptions.FillAndExpand
             };
 

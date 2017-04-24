@@ -146,6 +146,7 @@
     <BundleResource Include="Resources\default_image.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\burnable.png" />
     <Content Include="Resources\next_arrow.png" />
     <Content Include="Resources\prev_arrow.png" />
   </ItemGroup>
