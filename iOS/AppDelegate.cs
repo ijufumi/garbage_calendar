@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using garbage_calendar.iOS.Logic;
+using garbage_calendar.Logic;
+using Microsoft.Practices.Unity;
+using Prism.Unity;
 using UIKit;
 
 namespace garbage_calendar.iOS
@@ -14,9 +18,18 @@ namespace garbage_calendar.iOS
 		{
 			global::Xamarin.Forms.Forms.Init();
 
-			LoadApplication(new App());
+			LoadApplication(new App(new iOSInitializer()));
 
 			return base.FinishedLaunching(app, options);
 		}
 	}
+
+    public class iOSInitializer : IPlatformInitializer
+    {
+        public void RegisterTypes(IUnityContainer container)
+        {
+            container.RegisterType<ISQLiteDBPathProvider, SQLiteDBPathProvider>(
+                new ContainerControlledLifetimeManager());
+        }
+    }
 }

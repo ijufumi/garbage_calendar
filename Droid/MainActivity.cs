@@ -7,6 +7,10 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using garbage_calendar.Droid.Logic;
+using garbage_calendar.Logic;
+using Microsoft.Practices.Unity;
+using Prism.Unity;
 
 namespace garbage_calendar.Droid
 {
@@ -22,7 +26,16 @@ namespace garbage_calendar.Droid
 
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 
-			LoadApplication(new App());
+			LoadApplication(new App(new AndroidInitializer()));
 		}
 	}
+
+    public class AndroidInitializer : IPlatformInitializer
+    {
+        public  void RegisterTypes(IUnityContainer container)
+        {
+            container.RegisterType<ISQLiteDBPathProvider, SQLiteDBPathProvider>(
+                new ContainerControlledLifetimeManager());
+        }
+    }
 }
