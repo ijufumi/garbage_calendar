@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using garbage_calendar.Logic;
+using garbage_calendar.Repository;
+using Microsoft.WindowsAzure.MobileServices;
+using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -9,11 +14,25 @@ namespace garbage_calendar.ViewModels
 {
     public class CalendarPageViewModel : BindableBase
     {
-        private INavigationService _navigationService;
+        private readonly INavigationService _navigationService;
+        private readonly IDataSynchronizer _dataSynchronizer;
+        private readonly ISQLiteDBPathProvider _sqLiteDbPathProvider;
+        private readonly MobileServiceClient _client;
+        private readonly IGarbageDayRepository _garbageDayRepository;
 
-        public CalendarPageViewModel(INavigationService navigationService)
+        public ObservableCollection<GarbageDay> GarbageDays { get; } = new ObservableCollection<GarbageDay>();
+
+        public CalendarPageViewModel(INavigationService navigationService,
+            IDataSynchronizer dataSynchronizer,
+            ISQLiteDBPathProvider sqLiteDbPathProvider,
+            IGarbageDayRepository garbageDayRepository,
+            MobileServiceClient client)
         {
             _navigationService = navigationService;
+            _dataSynchronizer = dataSynchronizer;
+            _sqLiteDbPathProvider = sqLiteDbPathProvider;
+            _garbageDayRepository = garbageDayRepository;
+            _client = client;
 
             Debug.WriteLine("Start CalendarPageViewModel()");
             NextMonthClicked = new DelegateCommand<string>(
@@ -32,6 +51,9 @@ namespace garbage_calendar.ViewModels
             ).ObservesProperty(() => CanCellClick);
 
             Debug.WriteLine("End CalendarPageViewModel()");
+
+            _dataSynchronizer.SyncAsync();
+            InitializeAsync();
         }
 
         public DelegateCommand<string> NextMonthClicked { get; }
@@ -68,6 +90,7 @@ namespace garbage_calendar.ViewModels
 
             _navigationService.NavigateAsync("CalendarPage", parameters, animated: false);
         }
+
         async Task CellClickAsync(int? day)
         {
             Debug.WriteLine("Cell clicked.{0}", day);
@@ -77,6 +100,18 @@ namespace garbage_calendar.ViewModels
         private bool CanShowPrev => true;
         private bool CanCellClick => true;
 
+        private async Task InitializeAsync()
+        {
+            var store = new MobileServiceSQLiteStore(_sqLiteDbPathProvider.GetPath());
+            store.DefineTable<GarbageDay>();
+            await _client.SyncContext.InitializeAsync(store);
+            var garbageDays = await _garbageDayRepository.GetAllAsync();
+            GarbageDays.Clear();
+            foreach (var day in garbageDays)
+            {
+                GarbageDays.Add(day);
+            }
+        }
     }
 
 }

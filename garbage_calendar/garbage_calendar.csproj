@@ -35,8 +35,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Logic\Cell.cs" />
-    <Compile Include="Logic\ISQLiteDBPathProvider.cs" />
+    <Compile Include="Models\Cell.cs" />
+    <Compile Include="Models\DataSynchronizer.cs" />
+    <Compile Include="Models\IDataSynchronizer.cs" />
+    <Compile Include="Models\ISQLiteDBPathProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\GarbageDay.cs" />
     <Compile Include="Repository\GarbageDayRepository.cs" />

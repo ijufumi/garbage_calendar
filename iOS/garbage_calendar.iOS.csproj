@@ -169,7 +169,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logic\SQLiteDBPathProvider.cs" />
+    <Compile Include="Models\SQLiteDBPathProvider.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
   </ItemGroup>
