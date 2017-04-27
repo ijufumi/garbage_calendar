@@ -12,9 +12,10 @@ namespace garbage_calendar.Views
     {
         public CalendarPage()
         {
+            Debug.WriteLine("Start CalendarPage()");
+
             InitializeComponent();
 
-            Debug.WriteLine("Start CalendarPage()");
             //UpdateView(0, 0);
             Debug.WriteLine("End CalendarPage()");
         }

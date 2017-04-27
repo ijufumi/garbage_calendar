@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 using Foundation;
@@ -16,9 +17,13 @@ namespace garbage_calendar.iOS
 	{
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
+		    Debug.WriteLine("AppDelegate.FinishedLaunching START.");
 			global::Xamarin.Forms.Forms.Init();
+		    Debug.WriteLine("AppDelegate.FinishedLaunching Forms.Init().");
 
 			LoadApplication(new App(new iOSInitializer()));
+
+		    Debug.WriteLine("AppDelegate.LoadApplication().");
 
 			return base.FinishedLaunching(app, options);
 		}
@@ -30,6 +35,7 @@ namespace garbage_calendar.iOS
         {
             container.RegisterType<ISQLiteDBPathProvider, SQLiteDBPathProvider>(
                 new ContainerControlledLifetimeManager());
+            Debug.WriteLine("AppDelegate.RegisterTypes called.");
         }
     }
 }

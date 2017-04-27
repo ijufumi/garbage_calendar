@@ -15,26 +15,17 @@ namespace garbage_calendar.ViewModels
     public class CalendarPageViewModel : BindableBase
     {
         private readonly INavigationService _navigationService;
-        private readonly IDataSynchronizer _dataSynchronizer;
-        private readonly ISQLiteDBPathProvider _sqLiteDbPathProvider;
-        private readonly MobileServiceClient _client;
-        private readonly IGarbageDayRepository _garbageDayRepository;
-
-        public ObservableCollection<GarbageDay> GarbageDays { get; } = new ObservableCollection<GarbageDay>();
+        private readonly GarbageDayService _garbageDayService;
 
         public CalendarPageViewModel(INavigationService navigationService,
-            IDataSynchronizer dataSynchronizer,
-            ISQLiteDBPathProvider sqLiteDbPathProvider,
-            IGarbageDayRepository garbageDayRepository,
-            MobileServiceClient client)
+            GarbageDayService garbageDayService
+        )
         {
             _navigationService = navigationService;
-            _dataSynchronizer = dataSynchronizer;
-            _sqLiteDbPathProvider = sqLiteDbPathProvider;
-            _garbageDayRepository = garbageDayRepository;
-            _client = client;
+            _garbageDayService = garbageDayService;
 
             Debug.WriteLine("Start CalendarPageViewModel()");
+
             NextMonthClicked = new DelegateCommand<string>(
                 async (T) => await ShowNextMonthAsync(T),
                 (T) => CanShowNext
@@ -52,8 +43,6 @@ namespace garbage_calendar.ViewModels
 
             Debug.WriteLine("End CalendarPageViewModel()");
 
-            _dataSynchronizer.SyncAsync();
-            InitializeAsync();
         }
 
         public DelegateCommand<string> NextMonthClicked { get; }
@@ -100,18 +89,6 @@ namespace garbage_calendar.ViewModels
         private bool CanShowPrev => true;
         private bool CanCellClick => true;
 
-        private async Task InitializeAsync()
-        {
-            var store = new MobileServiceSQLiteStore(_sqLiteDbPathProvider.GetPath());
-            store.DefineTable<GarbageDay>();
-            await _client.SyncContext.InitializeAsync(store);
-            var garbageDays = await _garbageDayRepository.GetAllAsync();
-            GarbageDays.Clear();
-            foreach (var day in garbageDays)
-            {
-                GarbageDays.Add(day);
-            }
-        }
     }
 
 }

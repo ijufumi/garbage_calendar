@@ -7,6 +7,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Android.Util;
 using garbage_calendar.Droid.Logic;
 using garbage_calendar.Logic;
 using Microsoft.Practices.Unity;
@@ -19,6 +20,7 @@ namespace garbage_calendar.Droid
 	{
 		protected override void OnCreate(Bundle bundle)
 		{
+			System.Diagnostics.Debug.WriteLine("MainActivity.OnCreate START");
 			TabLayoutResource = Resource.Layout.Tabbar;
 			ToolbarResource = Resource.Layout.Toolbar;
 
@@ -27,6 +29,7 @@ namespace garbage_calendar.Droid
 			global::Xamarin.Forms.Forms.Init(this, bundle);
 
 			LoadApplication(new App(new AndroidInitializer()));
+			System.Diagnostics.Debug.WriteLine("MainActivity.OnCreate END");
 		}
 	}
 
@@ -34,8 +37,10 @@ namespace garbage_calendar.Droid
     {
         public  void RegisterTypes(IUnityContainer container)
         {
+	        System.Diagnostics.Debug.WriteLine("MainActivity.RegisterTypes START");
             container.RegisterType<ISQLiteDBPathProvider, SQLiteDBPathProvider>(
                 new ContainerControlledLifetimeManager());
+	        System.Diagnostics.Debug.WriteLine("MainActivity.RegisterTypes END");
         }
     }
 }

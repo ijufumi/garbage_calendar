@@ -37,6 +37,7 @@
     </Compile>
     <Compile Include="Models\Cell.cs" />
     <Compile Include="Models\DataSynchronizer.cs" />
+    <Compile Include="Models\GarbageDayService.cs" />
     <Compile Include="Models\IDataSynchronizer.cs" />
     <Compile Include="Models\ISQLiteDBPathProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
