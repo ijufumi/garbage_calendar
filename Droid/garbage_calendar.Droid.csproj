@@ -189,20 +189,20 @@
   <!--
     <Content Include="packages.config" />
   -->  
-    <Content Include="Resources\drawable-hdpi\burnable.png" />
-    <Content Include="Resources\drawable-hdpi\next_arrow.png" />
-    <Content Include="Resources\drawable-hdpi\prev_arrow.png" />
-    <Content Include="Resources\drawable-xhdpi\burnable.png" />
-    <Content Include="Resources\drawable-xhdpi\next_arrow.png" />
-    <Content Include="Resources\drawable-xhdpi\prev_arrow.png" />
-    <Content Include="Resources\drawable-xxhdpi\burnable.png" />
-    <Content Include="Resources\drawable-xxhdpi\next_arrow.png" />
-    <Content Include="Resources\drawable-xxhdpi\prev_arrow.png" />
-    <Content Include="Resources\drawable\icon.png" />
-    <Content Include="Resources\drawable\default_image.png" />
-    <Content Include="Resources\drawable\burnable.png" />
-    <Content Include="Resources\drawable\next_arrow.png" />
-    <Content Include="Resources\drawable\prev_arrow.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\burnable.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\next_arrow.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\prev_arrow.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\burnable.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\next_arrow.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\prev_arrow.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\burnable.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\next_arrow.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\prev_arrow.png" />
+    <AndroidResource Include="Resources\drawable\icon.png" />
+    <AndroidResource Include="Resources\drawable\default_image.png" />
+    <AndroidResource Include="Resources\drawable\burnable.png" />
+    <AndroidResource Include="Resources\drawable\next_arrow.png" />
+    <AndroidResource Include="Resources\drawable\prev_arrow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Build.Download.0.4.2\build\Xamarin.Build.Download.targets" Condition="Exists('..\packages\Xamarin.Build.Download.0.4.2\build\Xamarin.Build.Download.targets')" />
