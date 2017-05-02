@@ -18,12 +18,12 @@ namespace garbage_calendar.Logic
 
         public GarbageDayService(
             ISQLiteDBPathProvider sqLiteDbPathProvider,
-            IGarbageDayRepository garbageDayRepository,
-            MobileServiceClient client
+            IGarbageDayRepository garbageDayRepository//,
+            //MobileServiceClient client
         )
         {
             Debug.WriteLine("GarbageDayService() START");
-            _client = client;
+            _client = MobileServiceClientFactory.create();
             _sqLiteDbPathProvider = sqLiteDbPathProvider;
             _garbageDayRepository = garbageDayRepository;
             Debug.WriteLine("GarbageDayService() END");
@@ -34,7 +34,7 @@ namespace garbage_calendar.Logic
             var store = new MobileServiceSQLiteStore(_sqLiteDbPathProvider.GetPath());
             store.DefineTable<GarbageDay>();
             await _client.SyncContext.InitializeAsync(store);
-            _garbageDayRepository.SyncAsync();
+            await _garbageDayRepository.SyncAsync();
             var garbageDays = await _garbageDayRepository.GetAllAsync();
             GarbageDays.Clear();
             foreach (var day in garbageDays)
