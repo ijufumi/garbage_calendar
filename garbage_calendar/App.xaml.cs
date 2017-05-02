@@ -40,7 +40,6 @@ namespace garbage_calendar
 	                new Uri("https://garbage-calendar.azurewebsites.net"),
 	                new HttpMessageHandler[] { }));
 	        Container.RegisterType<GarbageDayService>(new ContainerControlledLifetimeManager());
-	        Container.RegisterType<IDataSynchronizer, DataSynchronizer>(new ContainerControlledLifetimeManager());
 	        Container.RegisterType<IGarbageDayRepository, GarbageDayRepository>(new ContainerControlledLifetimeManager());
 	        Debug.WriteLine("App.RegisterTypes() END.");
 	    }

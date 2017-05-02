@@ -11,17 +11,22 @@ namespace garbage_calendar.Repository
         private IMobileServiceSyncTable<GarbageDay> GarbageDayTable { get; }
 
         public GarbageDayRepository(
-            //MobileServiceClient client
+            MobileServiceClient client
         )
         {
             Debug.WriteLine("GarbageDayRepository() START");
-            //GarbageDayTable = client.GetSyncTable<GarbageDay>();
+            // GarbageDayTable = client.GetSyncTable<GarbageDay>();
             Debug.WriteLine("GarbageDayRepository() END");
         }
 
         public Task<IEnumerable<GarbageDay>> GetAllAsync()
         {
             return GarbageDayTable.CreateQuery().ToEnumerableAsync();
+        }
+
+        public async Task SyncAsync()
+        {
+            await GarbageDayTable.PullAsync("allRecord", GarbageDayTable.CreateQuery());
         }
     }
 }

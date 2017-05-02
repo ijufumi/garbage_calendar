@@ -6,5 +6,7 @@ namespace garbage_calendar.Repository
     public interface IGarbageDayRepository
     {
         Task<IEnumerable<GarbageDay>> GetAllAsync();
+
+        Task SyncAsync();
     }
 }

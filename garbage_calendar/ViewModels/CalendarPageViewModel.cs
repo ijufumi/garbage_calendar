@@ -43,6 +43,7 @@ namespace garbage_calendar.ViewModels
 
             Debug.WriteLine("End CalendarPageViewModel()");
 
+            // _garbageDayService.InitializeAsync();
         }
 
         public DelegateCommand<string> NextMonthClicked { get; }
