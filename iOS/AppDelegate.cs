@@ -19,6 +19,7 @@ namespace garbage_calendar.iOS
 		{
 		    Debug.WriteLine("AppDelegate.FinishedLaunching START.");
 			global::Xamarin.Forms.Forms.Init();
+			Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 		    Debug.WriteLine("AppDelegate.FinishedLaunching Forms.Init().");
 
 			LoadApplication(new App(new iOSInitializer()));
