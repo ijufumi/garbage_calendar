@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using garbage_calendar.Logic;
 using Microsoft.WindowsAzure.MobileServices;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 
@@ -13,11 +12,11 @@ namespace garbage_calendar.Repository
 
         private MobileServiceClient _client;
         public GarbageDayRepository(
-            //MobileServiceClient client
+            MobileServiceClient client
         )
         {
             Debug.WriteLine("GarbageDayRepository() START");
-            _client = MobileServiceClientFactory.create();
+            _client = client;
             // _garbageDayTable = client.GetSyncTable<GarbageDay>();
             Debug.WriteLine("GarbageDayRepository() END");
         }

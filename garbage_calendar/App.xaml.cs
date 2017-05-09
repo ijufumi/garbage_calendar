@@ -34,11 +34,11 @@ namespace garbage_calendar
 	        Debug.WriteLine("App.RegisterTypes() START.");
 	        Container.RegisterTypeForNavigation<NavigationPage>();
 	        Container.RegisterTypeForNavigation<CalendarPage>();
-//	        Container.RegisterType<MobileServiceClient>(
-//	            new ContainerControlledLifetimeManager(),
-//	            new InjectionConstructor(
-//	                new Uri("https://garbage-calendar.azurewebsites.net"),
-//	                new HttpMessageHandler[] { }));
+	        Container.RegisterType<MobileServiceClient>(
+	            new ContainerControlledLifetimeManager(),
+	            new InjectionConstructor(
+	                new Uri("https://garbage-calendar.azurewebsites.net"),
+	                new HttpMessageHandler[] { }));
 	        Container.RegisterType<GarbageDayService>(new ContainerControlledLifetimeManager());
 	        Container.RegisterType<IGarbageDayRepository, GarbageDayRepository>(new ContainerControlledLifetimeManager());
 	        Debug.WriteLine("App.RegisterTypes() END.");

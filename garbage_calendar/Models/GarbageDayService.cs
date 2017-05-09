@@ -18,12 +18,12 @@ namespace garbage_calendar.Logic
 
         public GarbageDayService(
             ISQLiteDBPathProvider sqLiteDbPathProvider,
-            IGarbageDayRepository garbageDayRepository//,
-            //MobileServiceClient client
+            IGarbageDayRepository garbageDayRepository,
+            MobileServiceClient client
         )
         {
             Debug.WriteLine("GarbageDayService() START");
-            _client = MobileServiceClientFactory.create();
+            _client = client;
             _sqLiteDbPathProvider = sqLiteDbPathProvider;
             _garbageDayRepository = garbageDayRepository;
             Debug.WriteLine("GarbageDayService() END");
