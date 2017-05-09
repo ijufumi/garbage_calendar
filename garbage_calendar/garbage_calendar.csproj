@@ -30,6 +30,12 @@
   <ItemGroup>
     <EmbeddedResource Include="App.xaml" />
     <EmbeddedResource Include="Views\CalendarPage.xaml" />
+    <EmbeddedResource Include="Views\EditCalendarDataPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EditMasterDataPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -43,10 +49,21 @@
     <Compile Include="Repository\GarbageDay.cs" />
     <Compile Include="Repository\GarbageDayRepository.cs" />
     <Compile Include="Repository\IGarbageDayRepository.cs" />
+    <Compile Include="Repository\ITypeMasterRepository.cs" />
+    <Compile Include="Repository\TypeMaster.cs" />
+    <Compile Include="Repository\TypeMasterRepository.cs" />
     <Compile Include="Utils\CalendarUtils.cs" />
     <Compile Include="ViewModels\CalendarPageViewModel.cs" />
+    <Compile Include="ViewModels\EditCalendarDataPageViewModel.cs" />
+    <Compile Include="ViewModels\EditMasterDataPageViewModel.cs" />
     <Compile Include="Views\CalendarPage.xaml.cs">
       <DependentUpon>CalendarPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditCalendarDataPage.xaml.cs">
+      <DependentUpon>EditCalendarDataPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditMasterDataPage.xaml.cs">
+      <DependentUpon>EditMasterDataPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
