@@ -29,6 +29,7 @@
                    Text="2017年3月"
                    Grid.Row="0"
                    Grid.Column="1"
+                   VerticalOptions="CenterAndExpand"
                    VerticalTextAlignment="Center"
                    HorizontalTextAlignment="Center"/>
             <Image x:Name="toNextMonth"

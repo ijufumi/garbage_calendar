@@ -10,6 +10,13 @@ namespace garbage_calendar.Views
 {
     public partial class CalendarPage : ContentPage, INavigatingAware
     {
+        public static bool IsInitialized { get; private set; }
+        public static int CalendarDateRowHeight { get; private set; } = 50;
+        public static int CalendarHeaderRowHeight { get; private set; } = 15;
+        public static int CalendarColumnWidth { get; private set; } = 40;
+        public static int HeaderRowHeight { get; private set; } = 30;
+        public static int HeaderColumnWidth { get; private set; } = 30;
+
         public CalendarPage()
         {
             Debug.WriteLine("Start CalendarPage()");
@@ -18,36 +25,41 @@ namespace garbage_calendar.Views
 
             SizeChanged += (s, a) =>
             {
+                if (IsInitialized)
+                {
+                    return;
+                }
+
+                IsInitialized = true;
+
                 Debug.WriteLine("CalendarPage.SizeChanged called.");
 
-                var calendarDateRowHeight = (int) (Width * 0.9) / 7;
-                var calendarHeaderRowHeight = (int) (calendarDateRowHeight * 0.3);
-                var calendarColumnWidth = (int) (Width * 0.9) / 7;
-                calendarColumnWidth += (int) (calendarColumnWidth * 0.1);
+                CalendarDateRowHeight = (int) (Width * 0.9) / 7;
+                CalendarHeaderRowHeight = (int) (CalendarDateRowHeight * 0.3);
+                CalendarColumnWidth = (int) (Width * 0.9) / 7;
+                CalendarColumnWidth += (int) (CalendarColumnWidth * 0.1);
 
-                calendarGrid.RowDefinitions[0].Height = calendarHeaderRowHeight;
+                calendarGrid.RowDefinitions[0].Height = CalendarHeaderRowHeight;
                 for (var i = 1; i < calendarGrid.RowDefinitions.Count; i++)
                 {
-                    calendarGrid.RowDefinitions[i].Height = calendarDateRowHeight;
+                    calendarGrid.RowDefinitions[i].Height = CalendarDateRowHeight;
                 }
                 foreach (var columnDefinition in calendarGrid.ColumnDefinitions)
                 {
-                    columnDefinition.Width = calendarColumnWidth;
+                    columnDefinition.Width = CalendarColumnWidth;
                 }
 
-                var headerHeight = (int) Width / 9;
-                var headerWidth = (int) Width / 9;
+                HeaderRowHeight = (int) Width / 9;
+                HeaderColumnWidth = (int) Width / 9;
 
-                header.RowDefinitions[0].Height = headerHeight;
-                header.ColumnDefinitions[0].Width = headerWidth;
-                header.ColumnDefinitions[2].Width = headerWidth;
+                header.RowDefinitions[0].Height = HeaderRowHeight;
+                header.ColumnDefinitions[0].Width = HeaderColumnWidth;
+                header.ColumnDefinitions[2].Width = HeaderColumnWidth;
 
-                toPrevMonth.HeightRequest = headerHeight;
-                toNextMonth.HeightRequest = headerHeight;
+                toPrevMonth.HeightRequest = HeaderRowHeight;
+                toNextMonth.HeightRequest = HeaderRowHeight;
 
-                thisMonth.FontSize = 30 * (headerHeight / 30);
-                thisMonth.HorizontalTextAlignment = TextAlignment.Center;
-                thisMonth.VerticalTextAlignment = TextAlignment.Center;
+                thisMonth.FontSize = 30 * (HeaderRowHeight / 30);
             };
 
             //UpdateView(0, 0);
@@ -60,17 +72,26 @@ namespace garbage_calendar.Views
 
             var rowNum = CalendarUtils.CalcRowSize(year, month);
 
+            header.RowDefinitions[0].Height = HeaderRowHeight;
+            header.ColumnDefinitions[0].Width = HeaderColumnWidth;
+            header.ColumnDefinitions[2].Width = HeaderColumnWidth;
+
+            toPrevMonth.HeightRequest = HeaderRowHeight;
+            toNextMonth.HeightRequest = HeaderRowHeight;
+
+            thisMonth.FontSize = 30 * (HeaderRowHeight / 30);
+
             var rowCollections = new RowDefinitionCollection();
-            rowCollections.Add(new RowDefinition {Height = 15});
+            rowCollections.Add(new RowDefinition {Height = CalendarHeaderRowHeight});
             for (var i = 0; i < rowNum; i++)
             {
-                rowCollections.Add(new RowDefinition {Height = 50});
+                rowCollections.Add(new RowDefinition {Height = CalendarDateRowHeight});
             }
 
             var columnCollections = new ColumnDefinitionCollection();
             for (var i = 0; i < 7; i++)
             {
-                columnCollections.Add(new ColumnDefinition {Width = 40});
+                columnCollections.Add(new ColumnDefinition {Width = CalendarColumnWidth});
             }
 
             calendarGrid.RowDefinitions = rowCollections;
