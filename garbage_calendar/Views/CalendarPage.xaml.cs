@@ -16,6 +16,33 @@ namespace garbage_calendar.Views
 
             InitializeComponent();
 
+            SizeChanged += (s, a) =>
+            {
+                Debug.WriteLine("CalendarPage.SizeChanged called.");
+                var calendarDateRowHeight = (int) (Width * 0.9) / 7;
+                var calendarHeaderRowHeight = (int) (calendarDateRowHeight * 0.3);
+                var calendarColumnWidth = (int) (Width * 0.9) / 7;
+                calendarColumnWidth += (int) (calendarColumnWidth * 0.1);
+
+                calendarGrid.RowDefinitions[0].Height = calendarHeaderRowHeight;
+                for (var i = 1; i < calendarGrid.RowDefinitions.Count; i++)
+                {
+                    calendarGrid.RowDefinitions[i].Height = calendarDateRowHeight;
+                }
+                foreach (var columnDefinition in calendarGrid.ColumnDefinitions)
+                {
+                    columnDefinition.Width = calendarColumnWidth;
+                }
+
+                var headerHeight = (int) Width / 6;
+                var headerWidth = (int) Width / 6;
+                header.RowDefinitions[0].Height = headerHeight;
+                header.ColumnDefinitions[0].Width = headerWidth;
+                header.ColumnDefinitions[2].Width = headerWidth;
+                toPrevMonth.HeightRequest = headerHeight;
+                toNextMonth.HeightRequest = headerHeight;
+            };
+
             //UpdateView(0, 0);
             Debug.WriteLine("End CalendarPage()");
         }
@@ -96,7 +123,7 @@ namespace garbage_calendar.Views
                 new TapGestureRecognizer
                 {
                     Command = viewModel.PrevMonthClicked,
-                    CommandParameter = string.Format("{0}{1}", pickerDateTime.Year, pickerDateTime.Month)
+                    CommandParameter = $"{pickerDateTime.Year}{pickerDateTime.Month}"
                 }
             );
             pickerDateTime = pickerDateTime.AddMonths(2);
@@ -104,7 +131,7 @@ namespace garbage_calendar.Views
                 new TapGestureRecognizer
                 {
                     Command = viewModel.NextMonthClicked,
-                    CommandParameter = string.Format("{0}{1}", pickerDateTime.Year, pickerDateTime.Month)
+                    CommandParameter = $"{pickerDateTime.Year}{pickerDateTime.Month}"
                 }
             );
         }
