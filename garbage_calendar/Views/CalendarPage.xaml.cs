@@ -19,6 +19,7 @@ namespace garbage_calendar.Views
             SizeChanged += (s, a) =>
             {
                 Debug.WriteLine("CalendarPage.SizeChanged called.");
+
                 var calendarDateRowHeight = (int) (Width * 0.9) / 7;
                 var calendarHeaderRowHeight = (int) (calendarDateRowHeight * 0.3);
                 var calendarColumnWidth = (int) (Width * 0.9) / 7;
@@ -34,13 +35,19 @@ namespace garbage_calendar.Views
                     columnDefinition.Width = calendarColumnWidth;
                 }
 
-                var headerHeight = (int) Width / 6;
-                var headerWidth = (int) Width / 6;
+                var headerHeight = (int) Width / 9;
+                var headerWidth = (int) Width / 9;
+
                 header.RowDefinitions[0].Height = headerHeight;
                 header.ColumnDefinitions[0].Width = headerWidth;
                 header.ColumnDefinitions[2].Width = headerWidth;
+
                 toPrevMonth.HeightRequest = headerHeight;
                 toNextMonth.HeightRequest = headerHeight;
+
+                thisMonth.FontSize = 30 * (headerHeight / 30);
+                thisMonth.HorizontalTextAlignment = TextAlignment.Center;
+                thisMonth.VerticalTextAlignment = TextAlignment.Center;
             };
 
             //UpdateView(0, 0);
