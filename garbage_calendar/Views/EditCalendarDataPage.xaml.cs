@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace garbage_calendar
 {
-    public partial class EditDataPage : ContentPage
+    public partial class EditCalendarDataPage : ContentPage
     {
-        public EditDataPage()
+        public EditCalendarDataPage()
         {
             InitializeComponent();
         }
