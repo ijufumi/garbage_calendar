@@ -3,7 +3,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:mvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-    x:Class="garbage_calendar.EditDataPage"
+    x:Class="garbage_calendar.EditCalendarDataPage"
     mvvm:ViewModelLocator.AutowireViewModel="True"
     Title="カレンダーデータ編集">
     <ContentPage.Content>

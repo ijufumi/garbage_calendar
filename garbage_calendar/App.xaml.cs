@@ -34,6 +34,8 @@ namespace garbage_calendar
 	        Debug.WriteLine("App.RegisterTypes() START.");
 	        Container.RegisterTypeForNavigation<NavigationPage>();
 	        Container.RegisterTypeForNavigation<CalendarPage>();
+            Container.RegisterTypeForNavigation<EditCalendarDataPage>();
+            Container.RegisterTypeForNavigation<EditMasterDataPage>();
 	        Container.RegisterType<MobileServiceClient>(
 	            new ContainerControlledLifetimeManager(),
 	            new InjectionConstructor(
