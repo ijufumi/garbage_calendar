@@ -23,6 +23,21 @@ namespace garbage_calendar.Views
 
             InitializeComponent();
 
+            var viewModel = (CalendarPageViewModel) BindingContext;
+
+            ToolbarItems.Add(new ToolbarItem
+            {
+                Text = "menu1",
+                Priority = 1,
+                Command = viewModel.Menu1Clicked
+            });
+            ToolbarItems.Add(new ToolbarItem
+            {
+                Text = "menu2",
+                Priority = 2,
+                Command = viewModel.Menu2Clicked
+            });
+
             SizeChanged += (s, a) =>
             {
                 if (IsInitialized)

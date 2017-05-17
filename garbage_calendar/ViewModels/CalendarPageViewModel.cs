@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using garbage_calendar.Logic;
 using garbage_calendar.Repository;
@@ -40,6 +41,14 @@ namespace garbage_calendar.ViewModels
                 async (T) => await CellClickAsync(T),
                 T => CanCellClick
             ).ObservesProperty(() => CanCellClick);
+
+            Menu1Clicked = new DelegateCommand(
+                    async () => await ShowMasterDataPage()
+            );
+
+            Menu2Clicked = new DelegateCommand(
+                async () => await ShowEditCalendarDataPage()
+            );
 
             Debug.WriteLine("End CalendarPageViewModel()");
 
@@ -90,6 +99,19 @@ namespace garbage_calendar.ViewModels
         private bool CanShowPrev => true;
         private bool CanCellClick => true;
 
+
+        public DelegateCommand Menu1Clicked { get; }
+        public DelegateCommand Menu2Clicked { get; }
+
+        async Task ShowEditCalendarDataPage()
+        {
+            _navigationService.NavigateAsync("EditCalendarDataPage", animated: false);
+        }
+
+        async Task ShowMasterDataPage()
+        {
+            _navigationService.NavigateAsync("EditMasterDataPage", animated: false);
+        }
     }
 
 }
