@@ -10,14 +10,6 @@ namespace garbage_calendar
         public EditMasterDataPage()
         {
             InitializeComponent();
-            var viewModel = (EditMasterDataPageViewModel) BindingContext;
-
-            ToolbarItems.Add(new ToolbarItem
-            {
-                Text = "menu1",
-                Priority = 1,
-                Command = viewModel.Menu1Clicked
-            });
         }
 
         protected override void OnAppearing()

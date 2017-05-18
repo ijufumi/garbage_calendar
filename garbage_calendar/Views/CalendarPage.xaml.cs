@@ -23,21 +23,6 @@ namespace garbage_calendar.Views
 
             InitializeComponent();
 
-            var viewModel = (CalendarPageViewModel) BindingContext;
-
-            ToolbarItems.Add(new ToolbarItem
-            {
-                Text = "menu1",
-                Priority = 1,
-                Command = viewModel.Menu1Clicked
-            });
-            ToolbarItems.Add(new ToolbarItem
-            {
-                Text = "menu2",
-                Priority = 2,
-                Command = viewModel.Menu2Clicked
-            });
-
             SizeChanged += (s, a) =>
             {
                 if (IsInitialized)
@@ -206,10 +191,16 @@ namespace garbage_calendar.Views
 
         public void OnNavigatingTo(NavigationParameters parameters)
         {
+            var dateTime = DateTime.Now;
             Debug.WriteLine("OnNavigatingTo() called.{0}", parameters);
 
-            var year = (int) parameters["year"];
-            var month = (int) parameters["month"];
+            var year = dateTime.Year;
+            var month = dateTime.Month;
+            if (parameters.ContainsKey("year"))
+            {
+                year = (int) parameters["year"];
+                month = (int) parameters["month"];
+            }
 
             UpdateView(year, month);
         }

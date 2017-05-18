@@ -22,16 +22,14 @@ namespace garbage_calendar
 	    {
 	        Debug.WriteLine("OnIntialized() START.");
 	        InitializeComponent();
-	        var dateTime = DateTime.Now;
-	        var parameters = new NavigationParameters {{"year", dateTime.Year}, {"month", dateTime.Month}};
-
-	        NavigationService.NavigateAsync("NavigationPage/CalendarPage", parameters);
+	        NavigationService.NavigateAsync("/RootPage/NavigationPage/CalendarPage");
 	        Debug.WriteLine("OnIntialized() END.");
 	    }
 
 	    protected override void RegisterTypes()
 	    {
 	        Debug.WriteLine("App.RegisterTypes() START.");
+		    Container.RegisterTypeForNavigation<RootPage>();
 	        Container.RegisterTypeForNavigation<NavigationPage>();
 	        Container.RegisterTypeForNavigation<CalendarPage>();
             Container.RegisterTypeForNavigation<EditCalendarDataPage>();

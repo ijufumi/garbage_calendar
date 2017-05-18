@@ -42,14 +42,6 @@ namespace garbage_calendar.ViewModels
                 T => CanCellClick
             ).ObservesProperty(() => CanCellClick);
 
-            Menu1Clicked = new DelegateCommand(
-                    async () => await ShowMasterDataPage()
-            );
-
-            Menu2Clicked = new DelegateCommand(
-                async () => await ShowEditCalendarDataPage()
-            );
-
             Debug.WriteLine("End CalendarPageViewModel()");
 
             // _garbageDayService.InitializeAsync();
@@ -72,7 +64,7 @@ namespace garbage_calendar.ViewModels
             parameters.Add("year", dateTime.Year);
             parameters.Add("month", dateTime.Month);
 
-            _navigationService.NavigateAsync("CalendarPage", parameters, animated: false);
+            _navigationService.NavigateAsync("/RootPage/NavigationPage/CalendarPage", parameters, animated: false);
         }
         async Task ShowPrevMonthAsync(string yyyyMM)
         {
@@ -87,7 +79,7 @@ namespace garbage_calendar.ViewModels
             parameters.Add("year", dateTime.Year);
             parameters.Add("month", dateTime.Month);
 
-            _navigationService.NavigateAsync("CalendarPage", parameters, animated: false);
+            _navigationService.NavigateAsync("/RootPage/NavigationPage/CalendarPage", parameters, animated: false);
         }
 
         async Task CellClickAsync(int? day)
@@ -98,20 +90,6 @@ namespace garbage_calendar.ViewModels
         private bool CanShowNext => true;
         private bool CanShowPrev => true;
         private bool CanCellClick => true;
-
-
-        public DelegateCommand Menu1Clicked { get; }
-        public DelegateCommand Menu2Clicked { get; }
-
-        async Task ShowEditCalendarDataPage()
-        {
-            _navigationService.NavigateAsync("EditCalendarDataPage", animated: false);
-        }
-
-        async Task ShowMasterDataPage()
-        {
-            _navigationService.NavigateAsync("EditMasterDataPage", animated: false);
-        }
     }
 
 }

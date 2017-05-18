@@ -19,14 +19,5 @@ namespace garbage_calendar.ViewModels
             _navigationService = navigationService;
             _garbageDayRepository = garbageDayRepository;
         }
-
-        public DelegateCommand Menu1Clicked { get; }
-
-        async Task ShowCalendarPage()
-        {
-            var dateTime = DateTime.Now;
-            var parameters = new NavigationParameters {{"year", dateTime.Year}, {"month", dateTime.Month}};
-            _navigationService.NavigateAsync("CalendarPage", parameters, animated: false);
-        }
     }
 }
