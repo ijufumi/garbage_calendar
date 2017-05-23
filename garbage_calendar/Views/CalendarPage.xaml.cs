@@ -144,7 +144,7 @@ namespace garbage_calendar.Views
             }
 
             var pickerDateTime = new DateTime(year, month, 1);
-            thisMonth.Text = string.Format("{0}年{1}月", pickerDateTime.Year, pickerDateTime.Month);
+            thisMonth.Text = $"{pickerDateTime.Year}年{pickerDateTime.Month}月";
 
             pickerDateTime = pickerDateTime.AddMonths(-1);
             toPrevMonth.GestureRecognizers.Add(
