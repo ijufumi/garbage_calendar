@@ -66,6 +66,7 @@ namespace garbage_calendar.ViewModels
 
             _navigationService.NavigateAsync("/RootPage/NavigationPage/CalendarPage", parameters, animated: false);
         }
+        
         async Task ShowPrevMonthAsync(string yyyyMM)
         {
             var year = yyyyMM.Substring(0, 4);
@@ -76,6 +77,7 @@ namespace garbage_calendar.ViewModels
             var dateTime = new DateTime(Int32.Parse(year), Int32.Parse(month), 1);
             var parameters = new NavigationParameters();
 
+            
             parameters.Add("year", dateTime.Year);
             parameters.Add("month", dateTime.Month);
 
