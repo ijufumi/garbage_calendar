@@ -27,15 +27,15 @@ namespace garbage_calendar.ViewModels
 
             Debug.WriteLine("Start CalendarPageViewModel()");
 
-            NextMonthClicked = new DelegateCommand<string>(
-                async (T) => await ShowNextMonthAsync(T),
-                (T) => CanShowNext
-            ).ObservesProperty(() => CanShowNext);
-
-            PrevMonthClicked = new DelegateCommand<string>(
-                async (T) => await ShowPrevMonthAsync(T),
-                (T) => CanShowPrev
-            ).ObservesProperty(() => CanShowPrev);
+//            NextMonthClicked = new DelegateCommand<string>(
+//                async (T) => await ShowNextMonthAsync(T),
+//                (T) => CanShowNext
+//            ).ObservesProperty(() => CanShowNext);
+//
+//            PrevMonthClicked = new DelegateCommand<string>(
+//                async (T) => await ShowPrevMonthAsync(T),
+//                (T) => CanShowPrev
+//            ).ObservesProperty(() => CanShowPrev);
 
             CellClicked = new DelegateCommand<int?>(
                 async (T) => await CellClickAsync(T),
@@ -47,8 +47,8 @@ namespace garbage_calendar.ViewModels
             // _garbageDayService.InitializeAsync();
         }
 
-        public DelegateCommand<string> NextMonthClicked { get; }
-        public DelegateCommand<string> PrevMonthClicked { get; }
+//        private DelegateCommand<string> NextMonthClicked { get; }
+//        private DelegateCommand<string> PrevMonthClicked { get; }
         public DelegateCommand<int?> CellClicked { get; }
 
         async Task ShowNextMonthAsync(string yyyyMM)

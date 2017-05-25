@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using garbage_calendar.Utils;
 using garbage_calendar.ViewModels;
+using Prism.Commands;
 using Prism.Navigation;
 using Xamarin.Forms;
 using Cell = garbage_calendar.Logic.Cell;
@@ -23,6 +25,14 @@ namespace garbage_calendar.Views
 
             InitializeComponent();
 
+            NextMonthClicked = new DelegateCommand<string>(
+                async (T) => await ShowNextMonthAsync(T)
+            );
+
+            PrevMonthClicked = new DelegateCommand<string>(
+                async (T) => await ShowPrevMonthAsync(T)
+            );
+            
             SizeChanged += (s, a) =>
             {
                 if (IsInitialized)
@@ -150,7 +160,7 @@ namespace garbage_calendar.Views
             toPrevMonth.GestureRecognizers.Add(
                 new TapGestureRecognizer
                 {
-                    Command = viewModel.PrevMonthClicked,
+                    Command = PrevMonthClicked,
                     CommandParameter = $"{pickerDateTime.Year}{pickerDateTime.Month}"
                 }
             );
@@ -158,7 +168,7 @@ namespace garbage_calendar.Views
             toNextMonth.GestureRecognizers.Add(
                 new TapGestureRecognizer
                 {
-                    Command = viewModel.NextMonthClicked,
+                    Command = NextMonthClicked,
                     CommandParameter = $"{pickerDateTime.Year}{pickerDateTime.Month}"
                 }
             );
@@ -205,6 +215,30 @@ namespace garbage_calendar.Views
             UpdateView(year, month);
         }
 
+        public DelegateCommand<string> NextMonthClicked { get; }
+        public DelegateCommand<string> PrevMonthClicked { get; }
+        
+        async Task ShowNextMonthAsync(string yyyyMM)
+        {
+            var year = yyyyMM.Substring(0, 4);
+            var month = yyyyMM.Substring(4);
+
+            Debug.WriteLine("[Next] {0}/{1}", year, month);
+
+            UpdateView(Int32.Parse(year), Int32.Parse(month));
+        }
+        
+        async Task ShowPrevMonthAsync(string yyyyMM)
+        {
+            var year = yyyyMM.Substring(0, 4);
+            var month = yyyyMM.Substring(4);
+
+            Debug.WriteLine("[Prev] {0}/{1}", year, month);
+
+            UpdateView(Int32.Parse(year), Int32.Parse(month));
+        }
+
+        
         protected override void OnAppearing()
         {
             base.OnAppearing();
