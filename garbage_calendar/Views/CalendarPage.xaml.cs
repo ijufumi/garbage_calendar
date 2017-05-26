@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using garbage_calendar.Utils;
 using garbage_calendar.ViewModels;
@@ -10,108 +11,93 @@ using Cell = garbage_calendar.Logic.Cell;
 
 namespace garbage_calendar.Views
 {
-    public partial class CalendarPage : ContentPage, INavigatingAware
+    public partial class CalendarPage : ContentPage
     {
-        public static bool IsInitialized { get; private set; }
-        public static int CalendarDateRowHeight { get; private set; } = 50;
-        public static int CalendarHeaderRowHeight { get; private set; } = 15;
-        public static int CalendarColumnWidth { get; private set; } = 40;
-        public static int HeaderRowHeight { get; private set; } = 30;
-        public static int HeaderColumnWidth { get; private set; } = 30;
+        public static int CalendarGridHeight { get; private set; }
 
+        private int _year;
+        private int _month;
+        
         public CalendarPage()
         {
             Debug.WriteLine("Start CalendarPage()");
 
             InitializeComponent();
 
-            NextMonthClicked = new DelegateCommand<string>(
-                async (T) => await ShowNextMonthAsync(T)
+            NextMonthClicked = new DelegateCommand<int?>(
+                async (T) => await MoveMonthAsync(T)
             );
 
-            PrevMonthClicked = new DelegateCommand<string>(
-                async (T) => await ShowPrevMonthAsync(T)
+            PrevMonthClicked = new DelegateCommand<int?>(
+                async (T) => await MoveMonthAsync(T)
             );
+
+            var dateTime = DateTime.Now;
+            _year = dateTime.Year;
+            _month = dateTime.Month;
             
             SizeChanged += (s, a) =>
             {
-                if (IsInitialized)
-                {
-                    return;
-                }
-
-                IsInitialized = true;
-
-                Debug.WriteLine("CalendarPage.SizeChanged called.");
-
-                CalendarDateRowHeight = (int) (Width * 0.9) / 7;
-                CalendarHeaderRowHeight = (int) (CalendarDateRowHeight * 0.3);
-                CalendarColumnWidth = (int) (Width * 0.9) / 7;
-                CalendarColumnWidth += (int) (CalendarColumnWidth * 0.1);
-
-                calendarGrid.RowDefinitions[0].Height = CalendarHeaderRowHeight;
-                for (var i = 1; i < calendarGrid.RowDefinitions.Count; i++)
-                {
-                    calendarGrid.RowDefinitions[i].Height = CalendarDateRowHeight;
-                }
-                foreach (var columnDefinition in calendarGrid.ColumnDefinitions)
-                {
-                    columnDefinition.Width = CalendarColumnWidth;
-                }
-
-                HeaderRowHeight = (int) Width / 9;
-                HeaderColumnWidth = (int) Width / 9;
-
-                header.RowDefinitions[0].Height = HeaderRowHeight;
-                header.ColumnDefinitions[0].Width = HeaderColumnWidth;
-                header.ColumnDefinitions[2].Width = HeaderColumnWidth;
-
-                toPrevMonth.HeightRequest = HeaderRowHeight;
-                toNextMonth.HeightRequest = HeaderRowHeight;
-
-                thisMonth.FontSize = 30 * (HeaderRowHeight / 30);
+                InitView();
+                UpdateCalendar();
             };
 
             //UpdateView(0, 0);
             Debug.WriteLine("End CalendarPage()");
         }
 
-        private void UpdateView(int year, int month)
+        private void InitView()
         {
-            var viewModel = (CalendarPageViewModel) BindingContext;
+            Debug.WriteLine("Start InitView() Height:{0} Width:{1}", Height, Width);
 
-            var rowNum = CalendarUtils.CalcRowSize(year, month);
+            var headerRowHeight = (int) (Height / 10);
+            var headerColumnWidth = (int) Width / 9;
 
-            header.RowDefinitions[0].Height = HeaderRowHeight;
-            header.ColumnDefinitions[0].Width = HeaderColumnWidth;
-            header.ColumnDefinitions[2].Width = HeaderColumnWidth;
+            header.RowDefinitions[0].Height = headerRowHeight;
+            header.ColumnDefinitions[0].Width = headerColumnWidth;
+            header.ColumnDefinitions[2].Width = headerColumnWidth;
 
-            toPrevMonth.HeightRequest = HeaderRowHeight;
-            toNextMonth.HeightRequest = HeaderRowHeight;
+            toPrevMonth.HeightRequest = headerRowHeight;
+            toNextMonth.HeightRequest = headerRowHeight;
 
-            thisMonth.FontSize = 30 * (HeaderRowHeight / 30);
-
-            var rowCollections = new RowDefinitionCollection();
-            rowCollections.Add(new RowDefinition {Height = CalendarHeaderRowHeight});
-            for (var i = 0; i < rowNum; i++)
-            {
-                rowCollections.Add(new RowDefinition {Height = CalendarDateRowHeight});
-            }
-
+            thisMonth.FontSize = 30 * (headerRowHeight / 30);
+            
+            toPrevMonth.GestureRecognizers.Add(
+                new TapGestureRecognizer
+                {
+                    Command = PrevMonthClicked,
+                    CommandParameter = -1
+                }
+            );
+            toNextMonth.GestureRecognizers.Add(
+                new TapGestureRecognizer
+                {
+                    Command = NextMonthClicked,
+                    CommandParameter = 1
+                }
+            );
+            
+            var calendarColumnWidth = (int) (Width * 0.9) / 7;
             var columnCollections = new ColumnDefinitionCollection();
             for (var i = 0; i < 7; i++)
             {
-                columnCollections.Add(new ColumnDefinition {Width = CalendarColumnWidth});
+                columnCollections.Add(new ColumnDefinition {Width = calendarColumnWidth});
             }
-
-            calendarGrid.RowDefinitions = rowCollections;
             calendarGrid.ColumnDefinitions = columnCollections;
 
-            var cells = new Cell[rowNum * 7];
+            InitCalendarHeader();            
+            Debug.WriteLine("End InitView()");
+        }
 
-            var prevMonthDay = CalendarUtils.CalcPrevMonthDays(year, month);
-
-            Debug.WriteLine("曜日ラベル作成");
+        private void InitCalendarHeader()
+        {
+            Debug.WriteLine("Start InitCalendarHeader()");
+            var calendarHeaderRowHeight = (int) (Height * 0.05);
+            calendarGrid.RowDefinitions = new RowDefinitionCollection
+            {
+                new RowDefinition{Height = calendarHeaderRowHeight}
+            };
+            
             calendarGrid.Children.Add(CreateHeaderLabel(DayOfWeek.Sunday), 0, 0);
             calendarGrid.Children.Add(CreateHeaderLabel(DayOfWeek.Monday), 1, 0);
             calendarGrid.Children.Add(CreateHeaderLabel(DayOfWeek.Tuesday), 2, 0);
@@ -119,61 +105,63 @@ namespace garbage_calendar.Views
             calendarGrid.Children.Add(CreateHeaderLabel(DayOfWeek.Thursday), 4, 0);
             calendarGrid.Children.Add(CreateHeaderLabel(DayOfWeek.Friday), 5, 0);
             calendarGrid.Children.Add(CreateHeaderLabel(DayOfWeek.Saturday), 6, 0);
+   
+            Debug.WriteLine("End InitCalendarHeader()");
+        }
+        
+        private void UpdateCalendar()
+        {
+            Debug.WriteLine("Start UpdateCalendar()");
+            
+            var rowNum = CalendarUtils.CalcRowSize(_year, _month);
+
+            var calendarDateRowHeight = (Height * 0.8) / rowNum;
+            var rowCollections = new RowDefinitionCollection();
+            rowCollections.Add(calendarGrid.RowDefinitions[0]);
+            for (var i = 0; i < rowNum; i++)
+            {
+                rowCollections.Add(new RowDefinition {Height = calendarDateRowHeight});
+            }
+
+            calendarGrid.RowDefinitions = rowCollections;
+
+            var prevMonthDay = CalendarUtils.CalcPrevMonthDays(_year, _month);
+
+            Debug.WriteLine("既存のカレンダー削除");
+            calendarGrid.Children.Clear();
 
             Debug.WriteLine("カレンダー作成");
+            InitCalendarHeader();
             for (var i = 0; i < rowNum; i++)
             {
                 for (var j = 1; j <= 7; j++)
                 {
                     var idx = (i * 7) + j;
-                    var dateTime = CalendarUtils.CalcDate(year, month, prevMonthDay, idx);
-                    cells[idx - 1] = new Cell(dateTime.Year, dateTime.Month, dateTime.Day)
+                    var dateTime = CalendarUtils.CalcDate(_year, _month, prevMonthDay, idx);
+                    var cell = new Cell(dateTime.Year, dateTime.Month, dateTime.Day)
                     {
                         Index = idx - 1
                     };
 
-                    if (dateTime.Year == year && dateTime.Month == month)
+                    if (dateTime.Year == _year && dateTime.Month == _month)
                     {
-                        cells[idx - 1].BackgroundColor = Color.White;
+                        cell.BackgroundColor = Color.White;
                     }
                     else
                     {
-                        cells[idx - 1].BackgroundColor = Color.Gray;
+                        cell.BackgroundColor = Color.Gray;
                     }
                     Debug.WriteLine("{0}-{1}-{2}", dateTime.Year, dateTime.Month, dateTime.Day);
-
-                    cells[idx - 1].GestureRecognizers.Add(
-                        new TapGestureRecognizer
-                        {
-                            Command = viewModel.CellClicked,
-                            CommandParameter = idx - 1
-                        }
-                    );
-                    calendarGrid.Children.Add(cells[idx - 1], j - 1, i + 1);
+                    calendarGrid.Children.Add(cell, j - 1, i + 1);
                 }
             }
 
-            var pickerDateTime = new DateTime(year, month, 1);
+            var pickerDateTime = new DateTime(_year, _month, 1);
             thisMonth.Text = $"{pickerDateTime.Year}年{pickerDateTime.Month}月";
-
-            pickerDateTime = pickerDateTime.AddMonths(-1);
-            toPrevMonth.GestureRecognizers.Add(
-                new TapGestureRecognizer
-                {
-                    Command = PrevMonthClicked,
-                    CommandParameter = $"{pickerDateTime.Year}{pickerDateTime.Month}"
-                }
-            );
-            pickerDateTime = pickerDateTime.AddMonths(2);
-            toNextMonth.GestureRecognizers.Add(
-                new TapGestureRecognizer
-                {
-                    Command = NextMonthClicked,
-                    CommandParameter = $"{pickerDateTime.Year}{pickerDateTime.Month}"
-                }
-            );
+            
+            Debug.WriteLine("End UpdateCalendar()");
         }
-
+        
         private Label CreateHeaderLabel(DayOfWeek week)
         {
             var labelColor = Color.Black;
@@ -187,7 +175,6 @@ namespace garbage_calendar.Views
                     break;
             }
 
-            Debug.WriteLine("CreateHeaderLabel()");
             return new Label
             {
                 TextColor = labelColor,
@@ -199,43 +186,43 @@ namespace garbage_calendar.Views
             };
         }
 
-        public void OnNavigatingTo(NavigationParameters parameters)
-        {
-            var dateTime = DateTime.Now;
-            Debug.WriteLine("OnNavigatingTo() called.{0}", parameters);
-
-            var year = dateTime.Year;
-            var month = dateTime.Month;
-            if (parameters.ContainsKey("year"))
-            {
-                year = (int) parameters["year"];
-                month = (int) parameters["month"];
-            }
-
-            UpdateView(year, month);
-        }
-
-        public DelegateCommand<string> NextMonthClicked { get; }
-        public DelegateCommand<string> PrevMonthClicked { get; }
+        public DelegateCommand<int?> NextMonthClicked { get; }
+        public DelegateCommand<int?> PrevMonthClicked { get; }
         
-        async Task ShowNextMonthAsync(string yyyyMM)
+        async Task MoveMonthAsync(int? value)
         {
-            var year = yyyyMM.Substring(0, 4);
-            var month = yyyyMM.Substring(4);
+            var dateTime = new DateTime(_year, _month, 1);
+            dateTime = dateTime.AddMonths(value ?? 0);
+            _year = dateTime.Year;
+            _month = dateTime.Month;
 
-            Debug.WriteLine("[Next] {0}/{1}", year, month);
+            Debug.WriteLine("[MoveTo] {0}/{1}", _year, _month);
 
-            UpdateView(Int32.Parse(year), Int32.Parse(month));
+            UpdateCalendar();
         }
         
-        async Task ShowPrevMonthAsync(string yyyyMM)
+        async Task ShowNextMonthAsync()
         {
-            var year = yyyyMM.Substring(0, 4);
-            var month = yyyyMM.Substring(4);
+            var dateTime = new DateTime(_year, _month, 1);
+            dateTime = dateTime.AddMonths(1);
+            _year = dateTime.Year;
+            _month = dateTime.Month;
 
-            Debug.WriteLine("[Prev] {0}/{1}", year, month);
+            Debug.WriteLine("[Next] {0}/{1}", _year, _month);
 
-            UpdateView(Int32.Parse(year), Int32.Parse(month));
+            UpdateCalendar();
+        }
+        
+        async Task ShowPrevMonthAsync()
+        {
+            var dateTime = new DateTime(_year, _month, 1);
+            dateTime = dateTime.AddMonths(-1);
+            _year = dateTime.Year;
+            _month = dateTime.Month;
+
+            Debug.WriteLine("[Next] {0}/{1}", _year, _month);
+
+            UpdateCalendar();
         }
 
         
